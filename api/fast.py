@@ -1,11 +1,8 @@
-from datetime import datetime
-import pytz
-
-import pandas as pd
-import joblib
-
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import joblib
+from google.cloud import storage
+from ai_pictionary.params import MODEL_NAME
 
 app = FastAPI()
 
@@ -20,21 +17,18 @@ app.add_middleware(
 
 @app.get("/")
 def index():
-    return dict(greeting="hello")
+    return {"greeting": "Hello world"}
 
 
 @app.get("/predict")
-def predict(
-        X,  # [28,28]
-        ):  # 1
+def predict(X_pred):
 
-    # ⚠️ TODO: get model from GCP
+    bucket = "ai_pictionary_bucket"
 
-    # pipeline = get_model_from_gcp()
+    client = storage.Client().bucket(bucket)
+    storage_location = 'models/{}/v1/{}'.format(MODEL_NAME, 'model.joblib')
+    blob = client.blob(storage_location)
+    blob.download_to_filename('model.joblib')
     pipeline = joblib.load('model.joblib')
-
-    # make prediction
-    results = pipeline.predict(X)
-
-
-    return results
+    y_pred = pipeline.predict(X_pred)
+    return y_pred
