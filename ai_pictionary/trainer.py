@@ -1,10 +1,7 @@
 from google.cloud import storage
 import joblib
-from sklearn.model_selection import train_test_split
-from sklearn.pipeline import Pipeline
-from sklearn.preprocessing import OneHotEncoder, StandardScaler
-from SimpleTaxiFare import params
-
+from ai_pictionary import params
+from ai_pictionary.data import get_data
 
 class Trainer(object):
     def __init__(self, X, y):
@@ -53,16 +50,18 @@ def save_model(reg):
 
 if __name__ == "__main__":
     # get training data from GCP bucket
-    df = get_data()
-    df = df_optimized(df)
-    df = clean_data(df)
-    y = df["fare_amount"]
-    X = df.drop("fare_amount", axis=1)
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
-    # Train and save model, locally and
-    trainer = Trainer(X=X_train, y=y_train)
-    trainer.set_experiment_name(EXPERIMENT_NAME)
-    reg = trainer.run()
-    rmse = trainer.evaluate(X_test, y_test)
-    print(rmse)
-    save_model(reg)
+    # df = get_data()
+    # df = df_optimized(df)
+    # df = clean_data(df)
+    # y = df["fare_amount"]
+    # X = df.drop("fare_amount", axis=1)
+    # X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3)
+    # # Train and save model, locally and
+    # trainer = Trainer(X=X_train, y=y_train)
+    # trainer.set_experiment_name(EXPERIMENT_NAME)
+    # reg = trainer.run()
+    # rmse = trainer.evaluate(X_test, y_test)
+    # print(rmse)
+    # save_model(reg)
+    #X_train, X_test, y_train, y_test = get_data()
+    get_data()
