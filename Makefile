@@ -58,7 +58,7 @@ pypi:
 
 ### GCP Storage - - - - - - - - - - - - - - - - - - - - - -
 
-BUCKET_NAME=ai_pictionary
+BUCKET_NAME=ai_pictionary_bucket
 
 ##### Data  - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -81,10 +81,11 @@ RUNTIME_VERSION=1.15
 
 PACKAGE_NAME=ai_pictionary
 FILENAME=trainer
+PREPROC = trainer
 
 ##### Job - - - - - - - - - - - - - - - - - - - - - - - - -
 
-JOB_NAMEai_pictionary_training_pipeline_$(shell date +'%Y%m%d_%H%M%S')
+JOB_NAME = ai_pictionary_training_pipeline_$(shell date +'%Y%m%d_%H%M%S')
 
 
 run_locally:
@@ -99,3 +100,18 @@ gcp_submit_training:
 		--runtime-version=${RUNTIME_VERSION} \
 		--region ${REGION} \
 		--stream-logs
+		--scale-tier CUSTOM \
+		--master-machine-type n1-standard-16
+
+gcp_preprocessing:
+	gcloud ai-platform jobs submit training ${JOB_NAME} \
+		--job-dir gs://${BUCKET_NAME}/${BUCKET_TRAINING_FOLDER} \
+		--package-path ${PACKAGE_NAME} \
+		--module-name ${PACKAGE_NAME}.${PREPROC} \
+		--python-version=${PYTHON_VERSION} \
+		--runtime-version=${RUNTIME_VERSION} \
+		--region ${REGION} \
+		--stream-logs
+		--scale-tier CUSTOM \
+		--master-machine-type n1-standard-16
+
