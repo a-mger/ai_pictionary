@@ -80,8 +80,8 @@ RUNTIME_VERSION=1.15
 ##### Package params  - - - - - - - - - - - - - - - - - - -
 
 PACKAGE_NAME=ai_pictionary
-FILENAME=trainer
-PREPROC = trainer
+FILENAME = trainer
+PREPROC = precoc
 
 ##### Job - - - - - - - - - - - - - - - - - - - - - - - - -
 
