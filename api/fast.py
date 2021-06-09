@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
-import joblib
-from google.cloud import storage
-from ai_pictionary.params import MODEL_NAME
+import io
+from tensorflow.python.lib.io import file_io
+import numpy as np
+from tensorflow import keras
+import pandas as pd
 
 app = FastAPI()
 
@@ -23,12 +25,17 @@ def index():
 @app.get("/predict")
 def predict(X_pred):
 
-    bucket = "ai_pictionary_bucket"
+    X_pred = np.array(X_pred)
 
-    client = storage.Client().bucket(bucket)
-    storage_location = 'models/{}/v1/{}'.format(MODEL_NAME, 'model.joblib')
-    blob = client.blob(storage_location)
-    blob.download_to_filename('model.joblib')
-    pipeline = joblib.load('model.joblib')
-    y_pred = pipeline.predict(X_pred)
-    return y_pred
+    g = io.BytesIO(
+        file_io.read_file_to_string(f'gs://ai_pictionary_bucket/data/labels',
+                                    binary_mode=True))
+    labels = np.load(g)
+    model = keras.models.load_model(
+        "gs://ai_pictionary_bucket/models/model.joblib")
+    y_pred = model.predict(X_pred)
+    y_pred = pd.DataFrame(y_pred)
+    maxValueIndex = y_pred.idxmax(axis=1)
+    print(labels[maxValueIndex[0]])
+    y_pred = model.predict(X_pred)
+    return y_pred, labels
