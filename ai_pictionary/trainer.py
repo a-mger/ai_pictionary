@@ -33,13 +33,6 @@ class Trainer(object):
         return y_pred
 
 
-def upload_model_to_gcp():
-    client = storage.Client()
-    bucket = client.bucket(params.BUCKET_NAME)
-    blob = bucket.blob(params.STORAGE_LOCATION)
-    blob.upload_from_filename('model.save')
-
-
 def save_model(reg):
     """method that saves the model into a .save file and uploads it on Google Storage /models folder"""
     SAVE_PATH = os.path.join("gs://", params.BUCKET_NAME , params.STORAGE_LOCATION)
