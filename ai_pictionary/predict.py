@@ -37,12 +37,12 @@ def get_labels():
 
 
 def get_model():
-    pipeline = keras.models.load_model("gs://ai_pictionary_bucket/models/model.joblib")
-    return pipeline
+    model = keras.models.load_model("gs://ai_pictionary_bucket/models/CNN_BL")
+    return model
 
 
-def predict(pipeline, X_pred):
-    y_pred = pipeline.predict(X_pred)
+def predict(model, X_pred):
+    y_pred = model.predict(X_pred)
     return y_pred
 
 

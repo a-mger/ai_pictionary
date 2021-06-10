@@ -54,11 +54,11 @@ def get_data(max_items_per_class=5000, max_labels=10):
             'w'), X_test)
     np.save(
         file_io.FileIO(
-            f'gs://{params.BUCKET_NAME}/{params.BUCKET_TRAIN_DATA_PATH}/y_test.npy',
-            'w'), y_test)
+            f'gs://{params.BUCKET_NAME}/{params.BUCKET_TRAIN_DATA_PATH}/y_train.npy',
+            'w'), y_train)
     np.save(
         file_io.FileIO(
-            f'gs://{params.BUCKET_NAME}/{params.BUCKET_TRAIN_DATA_PATH}/y_pred.npy',
+            f'gs://{params.BUCKET_NAME}/{params.BUCKET_TRAIN_DATA_PATH}/y_test.npy',
             'w'), y_test)
 
     print("saved labels")
