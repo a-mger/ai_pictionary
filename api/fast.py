@@ -1,10 +1,9 @@
-from fastapi import FastAPI, UploadFile
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import io
-from tensorflow.python.lib.io import file_io
 import numpy as np
 from tensorflow import keras
 import pandas as pd
+import json
 
 app = FastAPI()
 
@@ -23,19 +22,17 @@ def index():
 
 
 @app.get("/predict")
-def predict(X_pred):
-
-    X_pred = np.array(X_pred)
-
-    g = io.BytesIO(
-        file_io.read_file_to_string(f'gs://ai_pictionary_bucket/data/labels',
-                                    binary_mode=True))
-    labels = np.load(g)
-    model = keras.models.load_model(
-        "gs://ai_pictionary_bucket/models/model.joblib")
+def predict(img_frontend):
+    img_json = json.loads(img_frontend)
+    X_pred = np.array(img_json).reshape((1, 28, 28, 1))
+    X_pred = X_pred/255
+    labels = np.load("model/labels.npy")
+    model = keras.models.load_model("model/CNN_BL")
     y_pred = model.predict(X_pred)
     y_pred = pd.DataFrame(y_pred)
-    maxValueIndex = y_pred.idxmax(axis=1)
-    print(labels[maxValueIndex[0]])
-    y_pred = model.predict(X_pred)
-    return y_pred, labels
+    y_pred = y_pred.sort_values(by=0, axis=1, ascending=False)
+    top5 = y_pred.iloc[:, 0:5]
+    for index in top5.columns:
+        top5 = top5.rename(columns={index: labels[index]})
+    top5_json = top5.to_json()
+    return top5_json

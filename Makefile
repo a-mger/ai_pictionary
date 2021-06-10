@@ -86,7 +86,6 @@ PREDICT = predict
 ##### Job - - - - - - - - - - - - - - - - - - - - - - - - -
 
 JOB_NAME = ai_pictionary_training_$(shell date +'%Y%m%d_%H%M%S')
-JOB_NAME_PRED = ai_pictionary_prediction_$(shell date +'%Y%m%d_%H%M%S')
 
 
 run_locally:

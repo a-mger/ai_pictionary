@@ -12,24 +12,24 @@ class Trainer(object):
             X: numpy array
             y: numpy array
         """
-        self.pipeline = None
+        self.model = None
         self.X = X
         self.y = y
         self.labels = labels
 
     def run(self):
-        self.pipeline = initialize_model(self.X, self.labels)
-        history = self.pipeline.fit(self.X,
+        self.model = initialize_model(self.X, self.labels)
+        history = self.model.fit(self.X,
                                     self.y,
                                     batch_size=128,
                                     epochs=5,
                                     validation_split=0.3,
                                     verbose=1)
-        return self.pipeline
+        return self.model
 
     def evaluate(self, X_test, y_test):
-        """evaluates the pipeline on df_test and return the RMSE"""
-        y_pred = self.pipeline.predict(X_test)
+        """evaluates the nodel on df_test and return the RMSE"""
+        y_pred = self.model.predict(X_test)
         return y_pred
 
 
@@ -37,7 +37,7 @@ def save_model(reg):
     """method that saves the model into a .save file and uploads it on Google Storage /models folder"""
     SAVE_PATH = os.path.join("gs://", params.BUCKET_NAME , params.STORAGE_LOCATION)
     reg.save(SAVE_PATH)
-    print("saved model.joblib in cloud")
+    print("saved model in cloud")
     pass
 
 
