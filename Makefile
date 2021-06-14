@@ -81,7 +81,6 @@ RUNTIME_VERSION=1.15
 
 PACKAGE_NAME=ai_pictionary
 FILENAME = trainer
-PREDICT = predict
 
 ##### Job - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -99,9 +98,9 @@ gcp_submit_training:
 		--python-version=${PYTHON_VERSION} \
 		--runtime-version=${RUNTIME_VERSION} \
 		--region ${REGION} \
-		--stream-logs
+		--stream-logs \
 		--scale-tier CUSTOM \
-		--master-machine-type n1-standard-16
+		--master-machine-type n1-highmem-96 \
 		
 ##### Prediction API - - - - - - - - - - - - - - - - - - - - - - - - -
 

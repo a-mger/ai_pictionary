@@ -22,12 +22,12 @@ def index():
 
 
 @app.get("/predict")
-def predict(img_frontend):
+def predict(img_frontend, model_type):
     img_json = json.loads(img_frontend)
     X_pred = np.array(img_json).reshape((1, 28, 28, 1))
     X_pred = X_pred/255
-    labels = np.load("model/labels.npy")
-    model = keras.models.load_model("model/CNN_BL")
+    labels = np.load(f"model/{model_type}/labels.npy")
+    model = keras.models.load_model(f"model/{model_type}")
     y_pred = model.predict(X_pred)
     y_pred = pd.DataFrame(y_pred)
     y_pred = y_pred.sort_values(by=0, axis=1, ascending=False)
