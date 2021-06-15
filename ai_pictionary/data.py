@@ -15,7 +15,7 @@ def get_data(max_items_per_class=5000, max_labels=10):
     """method to get the training data (or a portion of it) from google cloud bucket"""
     #making list of filenames to load from gcl
 
-    filenames = sample(categories.labels, max_labels)
+    filenames = sample(categories.labels_150, max_labels)
 
     #creating X, y and index to use for the loop and a label_names for making a list to check the y-label
     X = np.empty([0, 784])

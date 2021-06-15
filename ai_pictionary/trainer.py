@@ -46,7 +46,7 @@ def save_model(reg):
 if __name__ == "__main__":
     # get training data from GCP bucket
     X_train, X_test, y_train, y_test, labels = get_data(
-        max_items_per_class=90000, max_labels=250)
+        max_items_per_class=50000, max_labels=50)
     #X_train, y_train, labels = get_data2()
     #normalize the data by dividing it by 255
     X_train /= 255

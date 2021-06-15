@@ -100,7 +100,7 @@ gcp_submit_training:
 		--region ${REGION} \
 		--stream-logs \
 		--scale-tier CUSTOM \
-		--master-machine-type n1-highmem-96 \
+		--master-machine-type n1-standard-16 \
 		
 ##### Prediction API - - - - - - - - - - - - - - - - - - - - - - - - -
 
