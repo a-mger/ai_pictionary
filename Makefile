@@ -80,7 +80,7 @@ RUNTIME_VERSION=1.15
 ##### Package params  - - - - - - - - - - - - - - - - - - -
 
 PACKAGE_NAME=ai_pictionary
-FILENAME = trainer
+FILENAME = trainer_KNN
 
 ##### Job - - - - - - - - - - - - - - - - - - - - - - - - -
 
@@ -101,6 +101,7 @@ gcp_submit_training:
 		--stream-logs \
 		--scale-tier CUSTOM \
 		--master-machine-type n1-standard-16 \
+
 		
 ##### Prediction API - - - - - - - - - - - - - - - - - - - - - - - - -
 

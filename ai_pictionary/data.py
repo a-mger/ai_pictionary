@@ -66,29 +66,31 @@ def get_data(max_items_per_class=5000, max_labels=10):
 
     return X_train, X_test, y_train, y_test, filenames
 
-
-def get_data2():
+def get_data_KNN(max_items_per_class=5000, max_labels=10):
     """method to get the training data (or a portion of it) from google cloud bucket"""
     #making list of filenames to load from gcl
-    a = io.BytesIO(
-        file_io.read_file_to_string(
-            f'gs://{params.BUCKET_NAME}/{params.BUCKET_TRAIN_DATA_PATH}/labels.npy',
+
+    filenames = sample(categories.labels, max_labels)
+
+    #creating X, y and index to use for the loop and a label_names for making a list to check the y-label
+    X = np.empty([0, 784])
+    y = np.empty([0])
+    index = 0
+
+    for file in filenames:
+        f = io.BytesIO(
+            file_io.read_file_to_string(
+                f'gs://quickdraw_dataset/full/numpy_bitmap/' + file +".npy",
                 binary_mode=True))
-    filenames = np.load(a)
+        data = np.load(f)
+        data = data[0:max_items_per_class, :]
+        label = np.full(data.shape[0], index)
+        y = np.append(y, label)
+        X = np.concatenate((X, data), axis=0)
+        print(index)
+        index += 1
 
-    b = io.BytesIO(
-        file_io.read_file_to_string(
-            f'gs://{params.BUCKET_NAME}/{params.BUCKET_TRAIN_DATA_PATH}/X_train.npy',
-                binary_mode=True))
-    X_train = np.load(b)
-
-    c = io.BytesIO(
-        file_io.read_file_to_string(
-            f'gs://{params.BUCKET_NAME}/{params.BUCKET_TRAIN_DATA_PATH}/y_train.npy',
-            binary_mode=True))
-    y_train = np.load(c)
-
-    return X_train, y_train, filenames
+    return X, y, filenames
 
 
 if __name__ == '__main__':

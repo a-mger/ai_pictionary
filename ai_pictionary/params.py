@@ -1,4 +1,4 @@
 BUCKET_NAME = 'ai_pictionary_bucket'
-BUCKET_TRAIN_DATA_PATH = 'data_50'
+BUCKET_TRAIN_DATA_PATH = 'data_knn'
 MODEL_NAME = 'ai_pictionary'
-STORAGE_LOCATION = 'models/CNN_50'
+STORAGE_LOCATION = 'models/KNN'
