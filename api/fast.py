@@ -4,6 +4,9 @@ import numpy as np
 from tensorflow import keras
 import pandas as pd
 import json
+import random
+from tensorflow.python.lib.io import file_io
+import io
 
 app = FastAPI()
 
@@ -36,3 +39,17 @@ def predict(img_frontend, model_type):
         top5 = top5.rename(columns={index: labels[index]})
     top5_json = top5.to_json()
     return top5_json
+
+
+@app.get("/getpic")
+def predict(label):
+    f = io.BytesIO(
+                file_io.read_file_to_string(
+                    f'gs://quickdraw_dataset/full/numpy_bitmap/' + label +".npy",
+                    binary_mode=True))
+    sample_array = np.load(f)
+    random_number = random.randint(0,len(sample_array))
+    random_pic = sample_array[random_number,:].reshape(28,28)
+    random_pic_list = random_pic.tolist()
+    random_pic_json = json.dumps(random_pic_list)
+    return random_pic_json
