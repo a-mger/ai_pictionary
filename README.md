@@ -1,74 +1,21 @@
-# Data analysis
-- Document here the project: ai_pictionary
-- Description: Project Description
-- Data Source:
-- Type of analysis:
+# AI Pictionary
+For this project we used the Google Quick Draw Dataset to train an AI to recognize user generated sketches. The complete dataset consists of 345 labels and a total number of 50 million images.
 
-Please document the project the better you can.
+The Project consists of 3 Models namely:
+- CNN with 50 Labels each 50.000 images
+- CNN with 150 labels each 70.000 images
+- CNN with 250 labels each 90.000 images
 
-# Startup the project
+# Training Data
+Only the compressed bitmap files were used for the training of the CNNs.
 
-The initial setup.
+# Google Cloud Services
+The training of the models has been performed with the Google cloud AI platform. 
+The prediction runs via the docker image on the Google Cloud repository and can be accessed via an API
 
-Create virtualenv and install the project:
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv ~/venv ; source ~/venv/bin/activate ;\
-    pip install pip -U; pip install -r requirements.txt
-```
+# Fron tend
+The front end [ai_pictionary_web](https://github.com/a-mger/ai_pictionary_web) was built with streamlit and drawable_canvas. The drawing data gets compressed and formatted to match the training data. 
+Deploymend is done via Heroku
 
-Unittest test:
-```bash
-make clean install test
-```
-
-Check for ai_pictionary in gitlab.com/{group}.
-If your project is not set please add it:
-
-- Create a new project on `gitlab.com/{group}/ai_pictionary`
-- Then populate it:
-
-```bash
-##   e.g. if group is "{group}" and project_name is "ai_pictionary"
-git remote add origin git@github.com:{group}/ai_pictionary.git
-git push -u origin master
-git push -u origin --tags
-```
-
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-ai_pictionary-run
-```
-
-# Install
-
-Go to `https://github.com/{group}/ai_pictionary` to see the project, manage issues,
-setup you ssh public key, ...
-
-Create a python3 virtualenv and activate it:
-
-```bash
-sudo apt-get install virtualenv python-pip python-dev
-deactivate; virtualenv -ppython3 ~/venv ; source ~/venv/bin/activate
-```
-
-Clone the project and install it:
-
-```bash
-git clone git@github.com:{group}/ai_pictionary.git
-cd ai_pictionary
-pip install -r requirements.txt
-make clean install test                # install and test
-```
-Functionnal test with a script:
-
-```bash
-cd
-mkdir tmp
-cd tmp
-ai_pictionary-run
-```
+# Result
+[ai_pictionary](https://ai-pictionary.herokuapp.com/)
