@@ -1,5 +1,5 @@
 # AI Pictionary
-For this project we used the Google Quick Draw Dataset to train an AI to recognize user generated sketches. The complete dataset consists of 345 labels and a total number of 50 million images.
+For this project we used the [Google Quick Draw Dataset](https://github.com/googlecreativelab/quickdraw-dataset) to train an AI to recognize user generated sketches. The complete dataset consists of 345 labels and a total number of 50 million images.
 
 The Project consists of 3 Models namely:
 - CNN with 50 Labels each 50.000 images
