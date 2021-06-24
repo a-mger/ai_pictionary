@@ -13,7 +13,6 @@ from tensorflow.keras.backend import expand_dims
 
 def get_data(max_items_per_class=5000, max_labels=10):
     """method to get the training data (or a portion of it) from google cloud bucket"""
-    #making list of filenames to load from gcl
 
     filenames = sample(categories.labels_150, max_labels)
 
@@ -65,33 +64,6 @@ def get_data(max_items_per_class=5000, max_labels=10):
     print("saved labels")
 
     return X_train, X_test, y_train, y_test, filenames
-
-def get_data_KNN(max_items_per_class=5000, max_labels=10):
-    """method to get the training data (or a portion of it) from google cloud bucket"""
-    #making list of filenames to load from gcl
-
-    filenames = sample(categories.labels, max_labels)
-
-    #creating X, y and index to use for the loop and a label_names for making a list to check the y-label
-    X = np.empty([0, 784])
-    y = np.empty([0])
-    index = 0
-
-    for file in filenames:
-        f = io.BytesIO(
-            file_io.read_file_to_string(
-                f'gs://quickdraw_dataset/full/numpy_bitmap/' + file +".npy",
-                binary_mode=True))
-        data = np.load(f)
-        data = data[0:max_items_per_class, :]
-        label = np.full(data.shape[0], index)
-        y = np.append(y, label)
-        X = np.concatenate((X, data), axis=0)
-        print(index)
-        index += 1
-
-    return X, y, filenames
-
 
 if __name__ == '__main__':
     X_train, X_test, y_train, y_test, labels = get_data()

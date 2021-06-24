@@ -4,9 +4,6 @@ import numpy as np
 from tensorflow import keras
 import pandas as pd
 import json
-import random
-from tensorflow.python.lib.io import file_io
-import io
 
 app = FastAPI()
 
@@ -26,6 +23,9 @@ def index():
 
 @app.get("/predict")
 def predict(img_frontend, model_type):
+    """gets image data as string and load it into a numpy array
+    load model depening on input (CNN50 / CNN150 / CNN250)
+    predict and get the top 5 probabilities"""
     img_json = json.loads(img_frontend)
     X_pred = np.array(img_json).reshape((1, 28, 28, 1))
     X_pred = X_pred/255
